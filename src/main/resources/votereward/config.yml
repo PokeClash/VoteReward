@@ -1,0 +1,20 @@
+VoteCommandFeedback:
+  - "&e&lVote Links: &f"
+  - "&9<click:open_url:https://github.com/Neovitalism><hover:show_text:'&ehttps://github.com/Neovitalism'>Vote Link #1</hover></click>"
+  - "&9<click:open_url:https://github.com/Neovitalism><hover:show_text:'&ehttps://github.com/Neovitalism'>Vote Link #2</hover></click>"
+  - "&9<click:open_url:https://github.com/Neovitalism><hover:show_text:'&ehttps://github.com/Neovitalism'>Vote Link #3</hover></click>"
+  - "&9<click:open_url:https://github.com/Neovitalism><hover:show_text:'&ehttps://github.com/Neovitalism'>Vote Link #4</hover></click>"
+CommandsOnVote:
+  - "say {player} voted!"
+VoteParty:
+  Enabled: false
+  TargetVotes: 25
+  VotePartyCommand:
+    Enabled: true
+    Message: "&aThe Vote Party is currently at {count}/{target} votes!"
+  GlobalCommands:
+    - "give @a minecraft:emerald 1"
+  PerPlayerCommands:
+    - "give {player} minecraft:diamond 1"
+  OnVoteMessage: "&a{player} voted and increased the Vote Party count to {count}/{target}!"
+  TargetReachedMessage: "&aThe Vote Party has been reached and everyone has been given rewards!"

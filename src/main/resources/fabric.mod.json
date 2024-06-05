@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "id": "votereward",
+  "version": "${version}",
+
+  "name": "VoteReward",
+  "description": "A quick plugin made to execute commands on vote.",
+  "authors": [
+    "Neovitalism"
+  ],
+  "contact": {
+    "homepage": "https://discord.gg/fQXCccxMrD"
+  },
+
+  "license": "MIT",
+  "__icon": "assets/votereward/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "me.neovitalism.votereward.VoteReward"
+    ]
+  },
+
+  "depends": {
+    "fabricloader": ">=0.14.10",
+    "fabric-api": "*",
+    "minecraft": "~1.20",
+    "java": ">=17",
+    "neoapi": ">=1.4.0"
+  },
+
+  "suggests": {
+    "luckperms": ">=5.4.67"
+  }
+}
