@@ -47,10 +47,12 @@ public class VoteReward extends NeoMod {
         VotifierEvent.EVENT.register(vote -> {
             Map<String, String> replacements = new HashMap<>();
             replacements.put("{player}", vote.getUsername());
-            for(String command : commandsOnVote) {
-                getServer().getCommandManager().executeWithPrefix(getServer().getCommandSource(),
-                        ChatUtil.replaceReplacements(command, replacements));
-            }
+            this.getServer().executeSync(() -> {
+                for (String command : commandsOnVote) {
+                    getServer().getCommandManager().executeWithPrefix(getServer().getCommandSource(),
+                            ChatUtil.replaceReplacements(command, replacements));
+                }
+            });
             if(VoteParty.isEnabled()) VoteParty.increment(this, vote.getUsername());
         });
     }
