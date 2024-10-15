@@ -53,18 +53,20 @@ public class VoteParty {
         instance.adventure().all().sendMessage(ColorUtil.parseColour(votedMessage));
         if(currentVotes == targetVotes) {
             currentVotes = 0;
-            String targetReached = ChatUtil.replaceReplacements(targetReachedMessage, replacements);
-            for(String command : globalCommands) {
-                instance.getServer().getCommandManager().executeWithPrefix(instance.getServer().getCommandSource(), command);
-            }
-            for(ServerPlayerEntity player : PlayerManager.getAllPlayers(instance)) {
-                replacements.put("{player}", player.getName().getString());
-                for(String command : perPlayerCommands) {
-                    instance.getServer().getCommandManager().executeWithPrefix(instance.getServer().getCommandSource(),
-                            ChatUtil.replaceReplacements(command, replacements));
+            instance.getServer().executeSync(() -> {
+                String targetReached = ChatUtil.replaceReplacements(targetReachedMessage, replacements);
+                for(String command : globalCommands) {
+                    instance.getServer().getCommandManager().executeWithPrefix(instance.getServer().getCommandSource(), command);
                 }
-            }
-            instance.adventure().all().sendMessage(ColorUtil.parseColour(targetReached));
+                for(ServerPlayerEntity player : PlayerManager.getAllPlayers(instance)) {
+                    replacements.put("{player}", player.getName().getString());
+                    for(String command : perPlayerCommands) {
+                        instance.getServer().getCommandManager().executeWithPrefix(instance.getServer().getCommandSource(),
+                                ChatUtil.replaceReplacements(command, replacements));
+                    }
+                }
+                instance.adventure().all().sendMessage(ColorUtil.parseColour(targetReached));
+            });
         }
         saveCurrentVotes(instance);
     }
