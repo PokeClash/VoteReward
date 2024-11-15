@@ -9,9 +9,7 @@ CommandsOnVote:
 VoteParty:
   Enabled: false
   TargetVotes: 25
-  VotePartyCommand:
-    Enabled: true
-    Message: "&aThe Vote Party is currently at {count}/{target} votes!"
+  VotePartyCommandFeedback: "&aThe Vote Party is currently at {count}/{target} votes!"
   GlobalCommands:
     - "give @a minecraft:emerald 1"
   PerPlayerCommands:

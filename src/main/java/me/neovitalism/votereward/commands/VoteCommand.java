@@ -2,36 +2,33 @@ package me.neovitalism.votereward.commands;
 
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
-import com.mojang.brigadier.tree.LiteralCommandNode;
-import me.neovitalism.neoapi.modloading.NeoMod;
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import me.neovitalism.neoapi.modloading.command.CommandBase;
-import me.neovitalism.neoapi.utils.ChatUtil;
-import me.neovitalism.votereward.VoteReward;
+import me.neovitalism.neoapi.permissions.NeoPermission;
+import me.neovitalism.neoapi.utils.ColorUtil;
+import me.neovitalism.votereward.config.VoteRewardConfig;
 import net.minecraft.server.command.ServerCommandSource;
 
-import static net.minecraft.server.command.CommandManager.literal;
-
-public class VoteCommand implements CommandBase {
-    public VoteCommand(NeoMod instance, CommandDispatcher<ServerCommandSource> dispatcher) {
-        register(instance, dispatcher);
+public class VoteCommand extends CommandBase {
+    public VoteCommand(CommandDispatcher<ServerCommandSource> dispatcher) {
+        super(dispatcher, "vote");
     }
 
     @Override
-    public String[] getCommandAliases() {
-        return new String[0];
+    public NeoPermission[] getBasePermissions() {
+        return NeoPermission.of("votereward.vote", 0).toArray();
     }
 
     @Override
-    public LiteralCommandNode<ServerCommandSource> register(NeoMod instance, CommandDispatcher<ServerCommandSource> dispatcher) {
-        return dispatcher.register(literal("vote")
-                .executes(context -> {
-                    StringBuilder sb = new StringBuilder();
-                    for(int i = 0; i < VoteReward.voteCommandFeedback.size(); i++) {
-                        if(i != 0) sb.append("<newline>");
-                        sb.append(VoteReward.voteCommandFeedback.get(i));
-                    }
-                    ChatUtil.sendPrettyMessage(context.getSource(), sb.toString());
-                    return Command.SINGLE_SUCCESS;
-                }));
+    public LiteralArgumentBuilder<ServerCommandSource> getCommand(LiteralArgumentBuilder<ServerCommandSource> command) {
+        return command.executes(context -> {
+            StringBuilder sb = new StringBuilder();
+            for (String line : VoteRewardConfig.getVoteCommandFeedback()) {
+                if (!sb.isEmpty()) sb.append("<newline>");
+                sb.append(line);
+            }
+            context.getSource().sendMessage(ColorUtil.parseColour(sb.toString()));
+            return Command.SINGLE_SUCCESS;
+        });
     }
 }
