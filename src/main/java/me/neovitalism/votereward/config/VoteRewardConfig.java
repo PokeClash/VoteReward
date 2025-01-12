@@ -22,7 +22,6 @@ public class VoteRewardConfig {
 
         Configuration votePartySection = config.getSection("VoteParty");
         VoteRewardConfig.votePartiesEnabled = votePartySection == null || votePartySection.getBoolean("Enabled");
-        if (!VoteRewardConfig.votePartiesEnabled) return;
         assert votePartySection != null;
         VoteRewardConfig.votePartyTarget = votePartySection.getInt("TargetVotes", 25);
         VoteRewardConfig.votePartyCommandFeedback = votePartySection.getString("VotePartyCommandFeedback");
