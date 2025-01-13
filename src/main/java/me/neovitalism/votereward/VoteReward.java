@@ -36,9 +36,9 @@ public class VoteReward extends NeoMod {
         VoteListener.EVENT.register(vote -> VoteReward.EXECUTOR.runTaskSync(() -> {
             for (String command : VoteRewardConfig.getCommandsOnVote()) {
                 CommandUtil.executeServerCommand(StringUtil.replaceReplacements(command,
-                        Map.of("{player}", vote.getUsername())));
+                        Map.of("{player}", vote.getUsername(), "{service}", vote.getServiceName())));
             }
-            if (VoteRewardConfig.isVotePartiesEnabled()) VoteParty.increment(vote.getUsername());
+            if (VoteRewardConfig.isVotePartiesEnabled()) VoteParty.increment(vote.getUsername(), vote.getServiceName());
         }));
         VoteParty.loadCurrentVotes(this.getConfig("current-votes.yml", false));
         this.getLogger().info("Loaded!");

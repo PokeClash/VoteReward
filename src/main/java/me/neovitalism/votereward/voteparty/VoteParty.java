@@ -16,14 +16,15 @@ import java.util.Map;
 public class VoteParty {
     private static int currentVotes = 0;
 
-    public static void increment(String username) {
+    public static void increment(String username, String service) {
         VoteParty.currentVotes++;
         Map<String, String> replacements = new HashMap<>();
         replacements.put("{player}", username);
         replacements.put("{count}", String.valueOf(VoteParty.currentVotes));
         replacements.put("{target}", String.valueOf(VoteRewardConfig.getVotePartyTarget()));
+        replacements.put("{service}", service);
         String votedMessage = StringUtil.replaceReplacements(VoteRewardConfig.getOnVoteMessage(), replacements);
-        NeoAPI.adventure().all().sendMessage(ColorUtil.parseColour(votedMessage));
+        if (votedMessage != null) NeoAPI.adventure().all().sendMessage(ColorUtil.parseColour(votedMessage));
         if (VoteParty.currentVotes == VoteRewardConfig.getVotePartyTarget()) {
             VoteParty.currentVotes = 0;
             String message = StringUtil.replaceReplacements(VoteRewardConfig.getVotePartyCompletedMessage(), replacements);
