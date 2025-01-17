@@ -48,7 +48,7 @@ public class VoteParty {
         for (String command : VoteRewardConfig.getVotePartyGlobalCommands()) CommandUtil.executeServerCommand(command);
         for (ServerPlayerEntity player : PlayerManager.getOnlinePlayers()) {
             for (String playerCommand : VoteRewardConfig.getVotePartyPerPlayerCommands()) {
-                String parsed = StringUtil.replaceReplacements(playerCommand, Map.of("{player}", player.getName().toString()));
+                String parsed = StringUtil.replaceReplacements(playerCommand, Map.of("{player}", player.getName().getString()));
                 CommandUtil.executeServerCommand(parsed);
             }
         }
