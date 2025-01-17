@@ -46,7 +46,7 @@ public class VotePartyCommand extends CommandBase {
                 .then(argument("count", IntegerArgumentType.integer(0))
                 .executes(context -> {
                     int newCount = context.getArgument("count", Integer.class);
-                    VoteParty.setCurrentVotes(newCount);
+                    VoteParty.setCurrentVotes(context.getSource().getName(), newCount);
                     context.getSource().sendMessage(ColorUtil.parseColour(VoteReward.inst().getModPrefix() +
                             "&aSuccessfully set the vote party's current vote amount to " + newCount + "!"));
                     return Command.SINGLE_SUCCESS;

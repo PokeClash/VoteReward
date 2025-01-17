@@ -27,11 +27,15 @@ public class VoteParty {
         if (votedMessage != null && VoteParty.currentVotes % VoteRewardConfig.getMessageInterval() == 0) {
             NeoAPI.adventure().all().sendMessage(ColorUtil.parseColour(votedMessage));
         }
+        VoteParty.testForParty(replacements);
+        VoteReward.EXECUTOR.runTaskAsync(VoteParty::saveCurrentVotes);
+    }
+
+    public static void testForParty(Map<String, String> replacements) {
         if (VoteParty.currentVotes == VoteRewardConfig.getVotePartyTarget()) {
             VoteParty.currentVotes = 0;
             VoteParty.executeRewards(replacements);
         }
-        VoteReward.EXECUTOR.runTaskAsync(VoteParty::saveCurrentVotes);
     }
 
     public static void executeRewards(String executor) {
@@ -59,8 +63,14 @@ public class VoteParty {
         return VoteParty.currentVotes;
     }
 
-    public static void setCurrentVotes(int newCount) {
+    public static void setCurrentVotes(String executor, int newCount) {
         VoteParty.currentVotes = newCount;
+        Map<String, String> replacements = new HashMap<>();
+        replacements.put("{player}", executor);
+        replacements.put("{count}", String.valueOf(VoteParty.currentVotes));
+        replacements.put("{target}", String.valueOf(VoteRewardConfig.getVotePartyTarget()));
+        replacements.put("{service}", "???");
+        VoteParty.testForParty(replacements);
         VoteReward.EXECUTOR.runTaskAsync(VoteParty::saveCurrentVotes);
     }
 
