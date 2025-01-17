@@ -15,4 +15,5 @@ VoteParty:
   PerPlayerCommands:
     - "give {player} minecraft:diamond 1"
   OnVoteMessage: "&a{player} voted and increased the Vote Party count to {count}/{target}!"
+  MessageInterval: 1
   TargetReachedMessage: "&aThe Vote Party has been reached and everyone has been given rewards!"

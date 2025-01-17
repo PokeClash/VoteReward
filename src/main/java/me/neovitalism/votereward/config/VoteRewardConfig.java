@@ -14,6 +14,7 @@ public class VoteRewardConfig {
     private static List<String> votePartyGlobalCommands;
     private static List<String> votePartyPerPlayerCommands;
     private static String onVoteMessage;
+    private static int messageInterval;
     private static String votePartyCompletedMessage;
 
     public static void reload(Configuration config) {
@@ -28,6 +29,7 @@ public class VoteRewardConfig {
         VoteRewardConfig.votePartyGlobalCommands = votePartySection.getStringList("GlobalCommands");
         VoteRewardConfig.votePartyPerPlayerCommands = votePartySection.getStringList("PerPlayerCommands");
         VoteRewardConfig.onVoteMessage = votePartySection.getString("OnVoteMessage", null);
+        VoteRewardConfig.messageInterval = votePartySection.getInt("MessageInterval", 1);
         VoteRewardConfig.votePartyCompletedMessage = votePartySection.getString("TargetReachedMessage", null);
     }
 
@@ -61,6 +63,10 @@ public class VoteRewardConfig {
 
     public static String getOnVoteMessage() {
         return VoteRewardConfig.onVoteMessage;
+    }
+
+    public static int getMessageInterval() {
+        return VoteRewardConfig.messageInterval;
     }
 
     public static String getVotePartyCompletedMessage() {

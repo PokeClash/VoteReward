@@ -24,21 +24,35 @@ public class VoteParty {
         replacements.put("{target}", String.valueOf(VoteRewardConfig.getVotePartyTarget()));
         replacements.put("{service}", service);
         String votedMessage = StringUtil.replaceReplacements(VoteRewardConfig.getOnVoteMessage(), replacements);
-        if (votedMessage != null) NeoAPI.adventure().all().sendMessage(ColorUtil.parseColour(votedMessage));
+        if (votedMessage != null && VoteParty.currentVotes % VoteRewardConfig.getMessageInterval() == 0) {
+            NeoAPI.adventure().all().sendMessage(ColorUtil.parseColour(votedMessage));
+        }
         if (VoteParty.currentVotes == VoteRewardConfig.getVotePartyTarget()) {
             VoteParty.currentVotes = 0;
-            String message = StringUtil.replaceReplacements(VoteRewardConfig.getVotePartyCompletedMessage(), replacements);
-            for (String command : VoteRewardConfig.getVotePartyGlobalCommands())
-                CommandUtil.executeServerCommand(command);
-            for (ServerPlayerEntity player : PlayerManager.getOnlinePlayers()) {
-                for (String playerCommand : VoteRewardConfig.getVotePartyPerPlayerCommands()) {
-                    String parsed = StringUtil.replaceReplacements(playerCommand, Map.of("{player}", player.getName().toString()));
-                    CommandUtil.executeServerCommand(parsed);
-                }
-            }
-            NeoAPI.adventure().all().sendMessage(ColorUtil.parseColour(message));
+            VoteParty.executeRewards(replacements);
         }
         VoteReward.EXECUTOR.runTaskAsync(VoteParty::saveCurrentVotes);
+    }
+
+    public static void executeRewards(String executor) {
+        Map<String, String> replacements = new HashMap<>();
+        replacements.put("{player}", executor);
+        replacements.put("{count}", String.valueOf(VoteParty.currentVotes));
+        replacements.put("{target}", String.valueOf(VoteRewardConfig.getVotePartyTarget()));
+        replacements.put("{service}", "???");
+        VoteParty.executeRewards(replacements);
+    }
+
+    public static void executeRewards(Map<String, String> replacements) {
+        String message = StringUtil.replaceReplacements(VoteRewardConfig.getVotePartyCompletedMessage(), replacements);
+        for (String command : VoteRewardConfig.getVotePartyGlobalCommands()) CommandUtil.executeServerCommand(command);
+        for (ServerPlayerEntity player : PlayerManager.getOnlinePlayers()) {
+            for (String playerCommand : VoteRewardConfig.getVotePartyPerPlayerCommands()) {
+                String parsed = StringUtil.replaceReplacements(playerCommand, Map.of("{player}", player.getName().toString()));
+                CommandUtil.executeServerCommand(parsed);
+            }
+        }
+        NeoAPI.adventure().all().sendMessage(ColorUtil.parseColour(message));
     }
 
     public static int getCurrentVotes() {

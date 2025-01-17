@@ -50,6 +50,12 @@ public class VotePartyCommand extends CommandBase {
                     context.getSource().sendMessage(ColorUtil.parseColour(VoteReward.inst().getModPrefix() +
                             "&aSuccessfully set the vote party's current vote amount to " + newCount + "!"));
                     return Command.SINGLE_SUCCESS;
-                })));
+                }))).then(literal("forceparty")
+                .requires(NeoPermission.of("votereward.voteparty.force")::matches)
+                .executes(context -> {
+                    VoteParty.executeRewards(context.getSource().getName());
+                    return Command.SINGLE_SUCCESS;
+                })
+        );
     }
 }
