@@ -7,6 +7,7 @@ import java.util.List;
 public class VoteRewardConfig {
     private static List<String> voteCommandFeedback;
     private static List<String> commandsOnVote;
+    private static boolean storeOfflineVotes;
 
     private static boolean votePartiesEnabled;
     private static int votePartyTarget;
@@ -20,6 +21,7 @@ public class VoteRewardConfig {
     public static void reload(Configuration config) {
         VoteRewardConfig.voteCommandFeedback = config.getStringList("VoteCommandFeedback");
         VoteRewardConfig.commandsOnVote = config.getStringList("CommandsOnVote");
+        VoteRewardConfig.storeOfflineVotes = config.getBoolean("StoreOfflineVotes");
 
         Configuration votePartySection = config.getSection("VoteParty");
         VoteRewardConfig.votePartiesEnabled = votePartySection == null || votePartySection.getBoolean("Enabled");
@@ -39,6 +41,10 @@ public class VoteRewardConfig {
 
     public static List<String> getCommandsOnVote() {
         return VoteRewardConfig.commandsOnVote;
+    }
+
+    public static boolean shouldStoreOfflineVotes() {
+        return VoteRewardConfig.storeOfflineVotes;
     }
 
     public static boolean isVotePartiesEnabled() {

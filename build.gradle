@@ -11,6 +11,7 @@ group = "${project.maven_group}"
 repositories {
     mavenCentral()
     maven { url = 'https://jitpack.io' }
+    maven { url = 'https://maven.nucleoid.xyz/' }
     mavenLocal()
 }
 
@@ -22,6 +23,7 @@ dependencies {
     implementation 'net.kyori:adventure-text-minimessage:4.17.0'
     modImplementation 'net.kyori:adventure-platform-fabric:5.14.1'
     modImplementation include("me.neovitalism:NeoAPI:${project.neo_api_version}")
+    modImplementation("eu.pb4:placeholder-api:2.4.1+1.21")
     implementation 'com.github.NuVotifier.NuVotifier:nuvotifier-api:2.7.2'
     implementation 'com.github.DrexHD:NuVotifier-Fabric:1.0.0-1.20.5'
     compileOnly 'net.luckperms:api:5.4'

@@ -6,6 +6,7 @@ VoteCommandFeedback:
   - "&9<click:open_url:https://github.com/Neovitalism><hover:show_text:'&ehttps://github.com/Neovitalism'>Vote Link #4</hover></click>"
 CommandsOnVote:
   - "say {player} voted!"
+StoreOfflineVotes: true
 VoteParty:
   Enabled: false
   TargetVotes: 25
