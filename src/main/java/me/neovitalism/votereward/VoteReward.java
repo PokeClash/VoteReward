@@ -47,6 +47,7 @@ public class VoteReward extends NeoMod {
             } catch (ClassNotFoundException ignored) {}
         });
         VoteReward.instance = this;
+        new VoteStorage(EXECUTOR);
         ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
             ServerPlayerEntity player = handler.getPlayer();
             if (player == null) return;
