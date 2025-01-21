@@ -25,6 +25,7 @@ public class VoteStorage extends AsyncSavable {
     public static void storeVote(String username, String service) {
         UUID playerUUID = UUIDCache.getUUIDFromUsername(username);
         if (playerUUID == null) return;
+        service = service.replace(".", ",,");
         Map<String, Integer> storedVotes = VoteStorage.STORED_VOTES.computeIfAbsent(playerUUID, uuid -> new HashMap<>());
         int stored = storedVotes.getOrDefault(service, 0);
         storedVotes.put(service, stored+1);
@@ -37,7 +38,7 @@ public class VoteStorage extends AsyncSavable {
         Map<String, String> replacements = new HashMap<>();
         replacements.put("{player}", player.getName().getString());
         for (Map.Entry<String, Integer> entry : owedVotes.entrySet()) {
-            replacements.put("{service}", entry.getKey());
+            replacements.put("{service}", entry.getKey().replace(",,", "."));
             for (int i = 0; i < entry.getValue(); i++) {
                 for (String command : VoteRewardConfig.getCommandsOnVote()) {
                     CommandUtil.executeServerCommand(StringUtil.replaceReplacements(command, replacements));
