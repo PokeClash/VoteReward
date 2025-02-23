@@ -16,7 +16,6 @@ import me.neovitalism.votereward.hooks.PlaceholderAPIHook;
 import me.neovitalism.votereward.storage.VoteStorage;
 import me.neovitalism.votereward.util.UUIDCache;
 import me.neovitalism.votereward.voteparty.VoteParty;
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.minecraft.server.network.ServerPlayerEntity;
 
@@ -39,13 +38,11 @@ public class VoteReward extends NeoMod {
     @Override
     public void onInitialize() {
         super.onInitialize();
-        ServerLifecycleEvents.SERVER_STARTED.register((server) -> {
-            try {
-                Class.forName("eu.pb4.placeholders.api.Placeholders");
-                new PlaceholderAPIHook();
-                this.getLogger().info("TextPlaceholderAPI Support Enabled!");
-            } catch (ClassNotFoundException ignored) {}
-        });
+        try {
+            Class.forName("eu.pb4.placeholders.api.Placeholders");
+            new PlaceholderAPIHook();
+            this.getLogger().info("TextPlaceholderAPI Support Enabled!");
+        } catch (ClassNotFoundException ignored) {}
         VoteReward.instance = this;
         new VoteStorage(EXECUTOR);
         ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
@@ -65,7 +62,7 @@ public class VoteReward extends NeoMod {
             if (VoteRewardConfig.isVotePartiesEnabled()) VoteParty.increment(vote.getUsername(), vote.getServiceName());
         }));
         VoteParty.loadCurrentVotes(this.getConfig("current-votes.yml", false));
-        VoteStorage.load(this.getConfig("stored-votes.yml", false));
+        VoteStorage.loadVotes(this.getConfig("stored-votes.yml", false));
         this.getLogger().info("Loaded!");
     }
 

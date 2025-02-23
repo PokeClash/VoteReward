@@ -62,7 +62,7 @@ public class VoteStorage extends AsyncSavable {
         VoteReward.inst().saveConfig("stored-votes.yml", owedCommands);
     }
 
-    public static void load(Configuration config) {
+    public static void loadVotes(Configuration config) {
         if (config == null) return;
         for (String key : config.getKeys()) {
             UUID uuid = UUID.fromString(key);

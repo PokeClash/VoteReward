@@ -32,6 +32,7 @@
   },
 
   "suggests": {
-    "luckperms": ">=5.4.139"
+    "luckperms": ">=5.4.139",
+    "placeholderapi": "*"
   }
 }
