@@ -17,22 +17,37 @@ public class VoteRewardConfig {
     private static String onVoteMessage;
     private static int messageInterval;
     private static String votePartyCompletedMessage;
+    private static String databaseUrl;
+    private static String databaseUser;
+    private static String databasePassword;
+    private static boolean useMySQL;
 
     public static void reload(Configuration config) {
-        VoteRewardConfig.voteCommandFeedback = config.getStringList("VoteCommandFeedback");
-        VoteRewardConfig.commandsOnVote = config.getStringList("CommandsOnVote");
-        VoteRewardConfig.storeOfflineVotes = config.getBoolean("StoreOfflineVotes");
+        // Load voting settings
+        voteCommandFeedback = config.getStringList("VoteCommandFeedback");
+        commandsOnVote = config.getStringList("CommandsOnVote");
+        storeOfflineVotes = config.getBoolean("StoreOfflineVotes");
 
+        // Load vote party settings
         Configuration votePartySection = config.getSection("VoteParty");
-        VoteRewardConfig.votePartiesEnabled = votePartySection == null || votePartySection.getBoolean("Enabled");
+        votePartiesEnabled = votePartySection == null || votePartySection.getBoolean("Enabled");
         assert votePartySection != null;
-        VoteRewardConfig.votePartyTarget = votePartySection.getInt("TargetVotes", 25);
-        VoteRewardConfig.votePartyCommandFeedback = votePartySection.getString("VotePartyCommandFeedback");
-        VoteRewardConfig.votePartyGlobalCommands = votePartySection.getStringList("GlobalCommands");
-        VoteRewardConfig.votePartyPerPlayerCommands = votePartySection.getStringList("PerPlayerCommands");
-        VoteRewardConfig.onVoteMessage = votePartySection.getString("OnVoteMessage", null);
-        VoteRewardConfig.messageInterval = votePartySection.getInt("MessageInterval", 1);
-        VoteRewardConfig.votePartyCompletedMessage = votePartySection.getString("TargetReachedMessage", null);
+        votePartyTarget = votePartySection.getInt("TargetVotes", 25);
+        useMySQL = votePartySection.getBoolean("UseMySQL", false); // Add the useMySQL setting
+        votePartyCommandFeedback = votePartySection.getString("VotePartyCommandFeedback");
+        votePartyGlobalCommands = votePartySection.getStringList("GlobalCommands");
+        votePartyPerPlayerCommands = votePartySection.getStringList("PerPlayerCommands");
+        onVoteMessage = votePartySection.getString("OnVoteMessage", null);
+        messageInterval = votePartySection.getInt("MessageInterval", 1);
+        votePartyCompletedMessage = votePartySection.getString("TargetReachedMessage", null);
+
+        // Load database settings
+        Configuration databaseSection = config.getSection("Database");
+        if (databaseSection != null) {
+            databaseUrl = databaseSection.getString("Url", "jdbc:mysql://localhost:3306/your_database");
+            databaseUser = databaseSection.getString("User", "your_username");
+            databasePassword = databaseSection.getString("Password", "your_password");
+        }
     }
 
     public static List<String> getVoteCommandFeedback() {
@@ -77,5 +92,21 @@ public class VoteRewardConfig {
 
     public static String getVotePartyCompletedMessage() {
         return VoteRewardConfig.votePartyCompletedMessage;
+    }
+
+    public static String getDatabaseUrl() {
+        return databaseUrl;
+    }
+
+    public static String getDatabaseUser() {
+        return databaseUser;
+    }
+
+    public static String getDatabasePassword() {
+        return databasePassword;
+    }
+
+    public static boolean useMySQL() {
+        return useMySQL;
     }
 }

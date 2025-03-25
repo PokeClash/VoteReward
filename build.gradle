@@ -22,7 +22,7 @@ dependencies {
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
     implementation 'net.kyori:adventure-text-minimessage:4.17.0'
     modImplementation 'net.kyori:adventure-platform-fabric:5.14.1'
-    modImplementation include("me.neovitalism:NeoAPI:${project.neo_api_version}")
+    modImplementation fileTree(dir: 'libs', include: ['*.jar'])
     modImplementation("eu.pb4:placeholder-api:2.4.1+1.21")
     implementation 'com.github.NuVotifier.NuVotifier:nuvotifier-api:2.7.2'
     implementation 'com.github.DrexHD:NuVotifier-Fabric:1.0.0-1.20.5'

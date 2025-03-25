@@ -64,6 +64,7 @@ public class VoteReward extends NeoMod {
         VoteParty.loadCurrentVotes(this.getConfig("current-votes.yml", false));
         VoteStorage.loadVotes(this.getConfig("stored-votes.yml", false));
         this.getLogger().info("Loaded!");
+        VoteParty.ensureTableExists();
     }
 
     @Override

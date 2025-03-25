@@ -18,3 +18,8 @@ VoteParty:
   OnVoteMessage: "&a{player} voted and increased the Vote Party count to {count}/{target}!"
   MessageInterval: 1
   TargetReachedMessage: "&aThe Vote Party has been reached and everyone has been given rewards!"
+  UseMySQL: false
+Database:
+  Url: "jdbc:mysql://localhost:3306/your_database"
+  User: "your_username"
+  Password: "your_password"
